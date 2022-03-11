@@ -1,0 +1,111 @@
+enum AccountType { SYSTEM, USER }
+
+type Block @entity {
+    id: ID! # block hash
+
+    hash: String!
+    number: BigInt!
+    timestamp: Date!
+}
+
+type Extrinsic @entity {
+    id: ID! #extrinsic hash
+
+    sender: Account!
+    method: String!
+    section: String!
+    hash: String!
+    block: Block!
+    raw: String!
+}
+
+type Account @entity {
+    id: ID! # account address
+
+    address: String!
+    type: AccountType!
+    name: String!
+
+    transferIn: [Transfer] @derivedFrom(field: "to")
+    transferOut: [Transfer] @derivedFrom(field: "from")
+    tokenGroup: [AccountTokenGroup] @derivedFrom(field: "account")
+
+    txCount: Int!
+}
+
+type AccountTokenGroup @entity {
+    id: ID! # ${address}-${token}
+
+    account: Account!
+    token: Token!
+
+    transferIn: [Transfer] @derivedFrom(field: "toWithToken")
+    transferOut: [Transfer] @derivedFrom(field: "fromWithToken")
+    daily: [AccountDailyReport] @derivedFrom(field: "accountWithToken")
+
+    inVolume: BigInt!
+    outVolume: BigInt!
+    absVolume: BigInt! 
+
+    txCount: Int!
+}
+
+type AccountDailyReport @entity {
+    id: ID! # ${address}-${token}-${timestamp}
+
+    account: Account!
+    token: Token!
+    accountWithToken: AccountTokenGroup!
+
+    totalInVolume: BigInt!
+    totalOutVolume: BigInt!
+    totalAbsVolume: BigInt! 
+
+    inVolume: BigInt!
+    outVolume: BigInt!
+    absVolume: BigInt!
+
+    txCount: Int!
+    timestamp: Date!
+}
+
+type Token @entity {
+    id: ID! # token symbol
+
+    name: String!
+    decimals: Int!
+
+    amount: BigInt! # transfer volume
+
+    transfer: [Transfer] @derivedFrom(field: "token")
+    daily: [TokenDailyReport] @derivedFrom(field: "token")
+
+    txCount: Int!
+}
+
+type TokenDailyReport @entity {
+    id: ID! #t ${token}-${timestamp}
+
+    token: Token!
+
+    totalAmount: BigInt! # amount snapshot
+    transferVolume: BigInt! # transfer amount
+
+    txCount: Int!
+    timestamp: Date!
+}
+
+type Transfer @entity {
+    id: ID! # ${from}-${to}-${extrinsic}
+
+    from: Account!
+    to: Account!
+    toWithToken: AccountTokenGroup!
+    fromWithToken: AccountTokenGroup!
+    token: Token!
+    amount: BigInt!
+    isSystemCall: Boolean!
+    block: Block!
+    extrinsic: Extrinsic!
+    timestamp: Date!
+}
