@@ -1,6 +1,6 @@
 import { getTokenDecimals, isSystemAccount, getSystemAccount } from '@acala-network/subql-utils';
 import { SubstrateBlock, SubstrateExtrinsic } from '@subql/types';
-import { Account, AccountType, Block, Extrinsic, Token } from '../types';
+import { Account, AccountType, Block, Extrinsic, Token, Transfer } from '../types';
 
 export const getBlock = async (block: SubstrateBlock) => {
   const id = block.block.header.number.toString();
@@ -68,18 +68,29 @@ export const getAccount = async (address: string) => {
 export const getToken = async (token: string) => {
   const id = token;
 
-  let record = await Token.get(token);
+  let record = await Token.get(id);
 
   if (!record) {
     record = new Token(token);
 
-    const decimals = await getTokenDecimals(token);
+    const decimals = await getTokenDecimals(api as any, token);
 
     record.name = token;
-
+    record.decimals = decimals;
+    record.transferVolume = BigInt(0);
   }
+
+  return record;
 }
 
-export const getAccountTokenGroup = async (address: string, token: string) {
+export const getTransfer = async (id: string) => {
+  let record = await Transfer.get(id);
 
+  if (!record) {
+    record = new Transfer(id);
+
+    record.amount = BigInt(0);
+  }
+
+  return record;
 }
