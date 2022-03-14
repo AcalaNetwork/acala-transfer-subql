@@ -29,8 +29,8 @@ type Account @entity {
     transferIn: [Transfer] @derivedFrom(field: "to")
     transferOut: [Transfer] @derivedFrom(field: "from")
 
-    txCount: Int!
-    updateAt: Date!
+    txCount: Int
+    updateAt: Date
     updateAtBlock: Block
 }
 

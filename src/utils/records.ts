@@ -38,6 +38,7 @@ export const getExtrinsic = async (extrinsic: SubstrateExtrinsic) => {
     record.blockId = block.id;
     record.raw = extrinsic.extrinsic.toHex();
 
+    await account.save();
     await record.save();
   }
 
@@ -58,8 +59,6 @@ export const getAccount = async (address: string) => {
     record.type = systemAccount ? AccountType.SYSTEM : AccountType.USER;
     record.name =  systemAccount ? systemAccount.name : 'user'; 
     record.txCount = 0;
-
-    await record.save();
   }
 
   return record;
@@ -78,6 +77,7 @@ export const getToken = async (token: string) => {
     record.name = token;
     record.decimals = decimals;
     record.transferVolume = BigInt(0);
+    record.txCount = 0;
   }
 
   return record;

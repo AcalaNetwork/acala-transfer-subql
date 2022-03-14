@@ -11,28 +11,28 @@ export async function handleTransfer(
 ) {
     const originBlock = originEvent.block;
     const originExtrisnic = originEvent.extrinsic;
-
     const block = await getBlock(originBlock);
     const token = await getToken(tokenName);
     const from = await getAccount(fromId);
     const to = await getAccount(toId);
+    const transferId = `${block.id}-${originEvent.event.index.toString()}`;
+    const transfer = await getTransfer(transferId);
 
+    // update token record
     token.transferVolume = token.transferVolume + amount;
     token.txCount = token.txCount + 1;
     token.updateAt = block.timestamp;
     token.updateAtBlockId = block.id;
-
+    // update from account record
     from.txCount = from.txCount + 1;
     from.updateAt = block.timestamp;
     from.updateAtBlockId = block.id;
+    // update to account record
     to.txCount = to.txCount + 1;
     to.updateAt = block.timestamp;
     to.updateAtBlockId = block.id;
-
-    const transferId = `${block.id}-${originEvent.event.index.toString()}`;
-    const transfer = await getTransfer(transferId);
-
-
+    // update tranfser history record
+    transfer.tokenId = token.id;
     transfer.fromId = from.id;
     transfer.toId = to.id;
     transfer.amount = amount;
