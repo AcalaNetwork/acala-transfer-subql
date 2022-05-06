@@ -15,7 +15,7 @@ export async function handleTransfer(
     const token = await getToken(tokenName);
     const from = await getAccount(fromId);
     const to = await getAccount(toId);
-    const transferId = `${block.id}-${originEvent.event.index.toString()}`;
+    const transferId = `${block.id}-${originEvent.idx.toString()}`;
     const transfer = await getTransfer(transferId);
 
     // update token record
