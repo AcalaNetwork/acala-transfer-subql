@@ -1,4 +1,4 @@
-import { getTokenDecimals, isSystemAccount, getSystemAccount } from '@acala-network/subql-utils';
+import { getTokenDecimals, isSystemAccount } from '@acala-network/subql-utils';
 import { SubstrateBlock, SubstrateExtrinsic } from '@subql/types';
 import { Account, AccountType, Block, Extrinsic, Token, Transfer } from '../types';
 
