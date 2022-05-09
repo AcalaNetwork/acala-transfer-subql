@@ -17,14 +17,11 @@
     "schema.graphql",
     "project.yaml"
   ],
-  "engines": {
-    "node": ">=16.0.0"
-  },
   "author": "qwer951123",
   "license": "Apache-2.0",
   "devDependencies": {
     "@polkadot/api": "^7.1.1",
-    "@subql/cli": "^0.20.0",
+    "@subql/cli": "^0.21.0",
     "@subql/types": "^0.11.0",
     "typescript": "4.2.4"
   },
