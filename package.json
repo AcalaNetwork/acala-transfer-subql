@@ -17,6 +17,9 @@
     "schema.graphql",
     "project.yaml"
   ],
+  "engines": {
+    "node": ">=16.0.0"
+  },
   "author": "qwer951123",
   "license": "Apache-2.0",
   "devDependencies": {
