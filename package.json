@@ -28,7 +28,7 @@
   "dependencies": {
     "@acala-network/sdk-core": "^4.0.2-19",
     "@acala-network/sdk-wallet": "^4.0.2-19",
-    "@acala-network/subql-utils": "^0.1.18",
+    "@acala-network/subql-utils": "^0.1.21",
     "@acala-network/types": "^4.0.2-19",
     "@polkadot/wasm-crypto": "^6.0.1",
     "@polkadot/wasm-crypto-asmjs": "^6.0.1",
